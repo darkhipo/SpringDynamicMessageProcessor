@@ -1,0 +1,10 @@
+sqs_setup:
+    unknownMessageOutUrl: https://sqs.us-west-2.amazonaws.com/467537215423/na-unknownMessageOut-1
+    eventMessageOutUrl: https://sqs.us-west-2.amazonaws.com/467537215423/na-eventMessageOut-1
+    jbusMessageOutUrl: https://sqs.us-wes-2.amazonaws.com/467537215423/na-idReportMessageOut-1
+    idReportMessageOutUrl: https://sqs.us-wes-2.amazonaws.com/467537215423/na-idReportMessageOut-1
+    dtcMessageOutUrl: https://sqs.us-west-2.amazonaws.com/467537215423/na-dtcMessageOut-1
+    calAmpByteStreamTapUrl: https://sqs.us-west-2.amazonaws.com/467537215423/na-calAmpByteStreamTap-1
+    eventMessageOutputTapUrl: https://sqs.us-west-2.amazonaws.com/467537215423/na-eventMessageOutputTap-1
+    unknownMessageOutputTapUrl: https://sqs.us-west-2.amazonaws.com/467537215423/na-unknownMessageOutputTap-1
+    secondsPerPoll: 2
