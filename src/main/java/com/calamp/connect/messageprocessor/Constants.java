@@ -16,4 +16,7 @@ public final class Constants {
     public static final long sqsPollDelayMillis    = 1000L;
     public static final long replyTimeoutMillis    = 1000L;
     public static final long springPollDelayMillis = 64L;
+    
+    //Meta
+    public static final boolean debug              = false;
 }
