@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.calamp.connect.messageprocessor.domain.model.serializable.ClearFuturePathClass;
 import com.calamp.connect.messageprocessor.domain.model.serializable.ExpandingPathClass;
 import com.calamp.connect.messageprocessor.domain.model.serializable.StaticPathClass;
 
@@ -28,6 +29,7 @@ public class PathInitializationService {
         //See AppConfig.java for reference to these names.
         this.pathMap.put(StaticPathClass.class, Arrays.asList("DummyStage_C", "DummyStage_A", "DummyStage_B", "DummyStage_D", "DummyStage_E")); 
         this.pathMap.put(ExpandingPathClass.class, Arrays.asList("DummyStage_C", "DummyStage_A", "DummyStage_B", "DummyStage_D", "DummyStage_E", "DummyStage_F")); 
+        this.pathMap.put(ClearFuturePathClass.class, Arrays.asList("DummyStage_C", "DummyStage_A", "DummyStage_G")); 
     }
 
     public <E> List<String> initializePath(E inbound) {

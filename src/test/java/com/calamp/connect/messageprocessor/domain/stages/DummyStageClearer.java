@@ -4,41 +4,39 @@ import com.calamp.connect.messageprocessor.domain.model.ProcessingWrapper;
 import com.calamp.connect.messageprocessor.domain.model.serializable.ClearFuturePathClass;
 import com.calamp.connect.messageprocessor.domain.model.serializable.ExpandingPathClass;
 import com.calamp.connect.messageprocessor.domain.model.serializable.StaticPathClass;
-import com.calamp.connect.messageprocessor.domain.stages.Stage;
 
-public class DummyStage extends Stage {
+public class DummyStageClearer extends Stage{
 
-    public DummyStage(String ident) {
+    public DummyStageClearer(String ident) {
         super(ident);
     }
 
     @Override
-    public <I,O> ProcessingWrapper<O> enact(ProcessingWrapper<I> inPayload) {
+    public <I, O> ProcessingWrapper<O> enact(ProcessingWrapper<I> inPayload) {
         // The first element of the future becomes the present.
         ProcessingWrapper<O> outboundPayload = new ProcessingWrapper<O>(inPayload);
         outboundPayload.advance(this.getStageIdentifer());
         // String payloads used for testing.
         String dataAsString = null;
-        if (inPayload.getDataPayload() instanceof StaticPathClass ) {
+        if (inPayload.getDataPayload() instanceof StaticPathClass) {
             StaticPathClass spc = (StaticPathClass) inPayload.getDataPayload();
             dataAsString = spc.getPayload() + " " + this.getStageIdentifer();
             spc.setPayload(dataAsString);
-            outboundPayload.setDataPayload( (O) spc );
-        }
-        else if (inPayload.getDataPayload() instanceof ExpandingPathClass ){
+            outboundPayload.setDataPayload((O) spc);
+        } else if (inPayload.getDataPayload() instanceof ExpandingPathClass) {
             ExpandingPathClass epc = (ExpandingPathClass) inPayload.getDataPayload();
             dataAsString = epc.getPayload() + " " + this.getStageIdentifer();
             epc.setPayload(dataAsString);
-            outboundPayload.setDataPayload( (O) epc );
+            outboundPayload.setDataPayload((O) epc);
         }
         else if (inPayload.getDataPayload() instanceof ClearFuturePathClass) {
             ClearFuturePathClass epc = (ClearFuturePathClass) inPayload.getDataPayload();
             dataAsString = epc.getPayload() + " " + this.getStageIdentifer();
             epc.setPayload(dataAsString);
             outboundPayload.setDataPayload((O) epc);
-            outboundPayload.getFuturePath().clear();
         }
-        // Modify outbound payload data here.
+        // Clear future stages.
+        outboundPayload.getFuturePath().clear();
 
         return outboundPayload;
     }
