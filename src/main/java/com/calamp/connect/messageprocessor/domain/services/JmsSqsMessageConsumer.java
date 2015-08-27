@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.services;
 
 import org.apache.log4j.Logger;
@@ -10,13 +15,13 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
-@Service("myMessageConsumerService")
-public class JmSqsMessageConsumer {
+@Service
+public class JmsSqsMessageConsumer {
 
-    final static Logger logger = Logger.getLogger(JmSqsMessageConsumer.class);
+    final static Logger logger = Logger.getLogger(JmsSqsMessageConsumer.class);
 
     @Autowired
-    SQSerializeDeserializeService sds;
+    SerializeDeserializeService sds;
 
     @Resource(name = "jmsTemplate")
     private JmsTemplate jmsTemplate;
@@ -28,7 +33,7 @@ public class JmSqsMessageConsumer {
         String ret = null;
         if (msg instanceof TextMessage) {
             TextMessage txtmsg = (TextMessage) msg;
-            ret = sds.deserializeFromSqs(txtmsg.getText());
+            ret = sds.stringToObject(txtmsg.getText());
             logger.info(String.format("Received text: %s", ret));
         }
 

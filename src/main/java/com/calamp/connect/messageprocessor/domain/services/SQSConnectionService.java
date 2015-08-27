@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.services;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +27,7 @@ import com.calamp.connect.messageprocessor.Constants;
 
 @Service
 @ConfigurationProperties(prefix = Constants.sqsSetupYamlPrefix)
-public class SQSConnectionService implements SimpleQueuServiceConnectionInterface {
+public class SQSConnectionService implements SQSConnectionInterface {
 
     private static Logger log = Logger.getLogger(SQSConnectionService.class.getName());
     private AmazonSQS sqs;
@@ -64,7 +69,9 @@ public class SQSConnectionService implements SimpleQueuServiceConnectionInterfac
         return (!mresp.getMessages().isEmpty());
     }
 
-    // Receive message, then delete from Q. Return null if no message returned.
+    /** 
+     * Receive message, then delete from Q. Return null if no message returned.
+     */
     public String recieveMessage() {
         log.info("Receiving messages from SQS.");
         ReceiveMessageRequest receiveMessageRequest;

@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.service_activators;
 
 import org.apache.log4j.Logger;

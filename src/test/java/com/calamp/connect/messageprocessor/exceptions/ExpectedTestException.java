@@ -1,4 +1,9 @@
-package com.calamp.connect.messageprocessor.testing.exceptions;
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
+package com.calamp.connect.messageprocessor.exceptions;
 
 public class ExpectedTestException extends Exception {
 

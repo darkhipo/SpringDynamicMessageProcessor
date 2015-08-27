@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor;
 
 public final class Constants {
@@ -17,8 +22,4 @@ public final class Constants {
     public static final long sqsPollDelayMillis    = 1000L;
     public static final long replyTimeoutMillis    = 1000L;
     public static final long springPollDelayMillis = 64L;
-    
-    // Meta
-    // This MUST be set for the JUnit tests to work.
-    public static final boolean debug              = true;
 }

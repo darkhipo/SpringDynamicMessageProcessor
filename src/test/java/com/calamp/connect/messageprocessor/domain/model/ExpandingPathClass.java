@@ -1,8 +1,13 @@
-package com.calamp.connect.messageprocessor.domain.model.serializable;
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
+package com.calamp.connect.messageprocessor.domain.model;
 
 import java.io.Serializable;
 
-public class ExpandingPathClass implements Serializable {
+public class ExpandingPathClass implements CapsuleInterface<String>, Serializable {
 
     private static final long serialVersionUID = 318764014940011810L;
     private String payload;
@@ -11,10 +16,12 @@ public class ExpandingPathClass implements Serializable {
         this.setPayload(payload);
     }
 
+    @Override
     public String getPayload() {
         return payload;
     }
 
+    @Override
     public void setPayload(String payload) {
         this.payload = payload;
     }

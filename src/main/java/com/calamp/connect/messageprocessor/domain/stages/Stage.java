@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.stages;
 
 import javax.annotation.PostConstruct;

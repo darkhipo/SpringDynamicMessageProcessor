@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.services;
 
 import java.text.SimpleDateFormat;
@@ -15,7 +20,6 @@ import org.springframework.stereotype.Service;
 import com.calamp.connect.messageprocessor.Constants;
 import com.calamp.connect.messageprocessor.Util;
 import com.calamp.connect.messageprocessor.domain.model.ProcessingWrapper;
-import com.calamp.connect.messageprocessor.testing.environment.TestEnv;
 
 @Service
 public class ScheduledTasks {
@@ -24,13 +28,13 @@ public class ScheduledTasks {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Autowired(required = true)
-    SQSerializeDeserializeService sds;
+    SerializeDeserializeService sds;
 
     @Autowired(required = true)
-    JmSqsMessageProducer provider;
+    JmsSqsMessageProducer provider;
 
     @Autowired(required = true)
-    JmSqsMessageConsumer consumer;
+    JmsSqsMessageConsumer consumer;
 
     @Autowired(required = true)
     private SQSConnectionService eventMessageOut;
@@ -41,6 +45,9 @@ public class ScheduledTasks {
     @Autowired(required = true)
     private PathInitializationService pathService;
 
+    @Autowired
+    private ReplyProcessServiceInterface rpsi;
+    
     @Scheduled(fixedRate = Constants.sqsPollDelayMillis)
     public void pollAndProcess() {
         log.info("pollAndProcess the time is now " + dateFormat.format(new Date()));
@@ -49,8 +56,25 @@ public class ScheduledTasks {
     }
 
     /**
+     * Push based JMS-SQS solution.
+     * 
+     * @param The message received.
+     */
+    @JmsListener(destination = "na-eventMessageOut-1", containerFactory = "JmSqsContainerFactory")
+    public <E> void receiveMessage(String message) {
+        log.info("Received Message String <" + message + ">");
+        E reconstructed = this.sds.stringToObject(message);
+        log.info("Reconstruct Message String <" + reconstructed.getClass() + ">: " + reconstructed.toString());
+        ProcessingWrapper<E> payload;
+        payload = Util.wrapData(reconstructed, pathService.initializePath(reconstructed));
+        Future<ProcessingWrapper<E>> ret = stageService.processMessage(payload);
+        this.rpsi.processReply(ret);
+    }
+
+    /**
      * JMS based polling solution for reading messages from SQS.
      */
+    @SuppressWarnings("unused")
     private <E> void jmsPullFromSQS() {
         try {
             consumer.readMessage();
@@ -62,28 +86,15 @@ public class ScheduledTasks {
     /**
      * Custom polling solution for reading SQS.
      */
+    @SuppressWarnings("unused")
     private <E> void customPullFromSQS() {
         String mtxt = null;
         while ((mtxt = eventMessageOut.recieveMessage()) != null) {
             log.info("Message String: " + mtxt);
             ProcessingWrapper<E> payload;
-            payload = Util.wrapData(this.sds.deserializeFromSqs(mtxt), pathService.initializePath(mtxt));
+            payload = Util.wrapData(this.sds.stringToObject(mtxt), pathService.initializePath(mtxt));
             // This returns a Java Future, it can be waited on, put in a list
             Future<ProcessingWrapper<E>> ret = stageService.processMessage(payload);
-        }
-    }
-
-    // Push based JMS-SQS solution.
-    @JmsListener(destination = "na-eventMessageOut-1", containerFactory = "JmSqsContainerFactory")
-    public <E> void receiveMessage(String message) {
-        log.info("Received Message String <" + message + ">");
-        E reconstructed = sds.deserializeFromSqs(message);
-        log.info("Reconstruct Message String <" + reconstructed.getClass() + ">: " + reconstructed.toString());
-        ProcessingWrapper<E> payload;
-        payload = Util.wrapData(reconstructed, pathService.initializePath(reconstructed));
-        Future<ProcessingWrapper<E>> ret = stageService.processMessage(payload);
-        if (Constants.debug) {
-            TestEnv.pushResponse(ret);
         }
     }
 

@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.model;
 
 import java.util.ArrayList;
@@ -35,10 +40,11 @@ public class ProcessingWrapper<I> {
         this.futurePath = Util.copyStringList(copyMe.getFuturePath());
 
         if (copyMe.getDataPayload().getClass() == this.getClass()) {
-            this.dataPayload = (I) copyMe.getDataPayload(); // Shallow Copy.
+            // Shallow Copy.
+            this.dataPayload = (I) copyMe.getDataPayload(); 
         } else {
-            this.dataPayload = null; // Assume that in this case data is set
-                                     // through "setData".
+            // Assume that in this case data is set through "setData"!
+            this.dataPayload = null; 
         }
     }
 

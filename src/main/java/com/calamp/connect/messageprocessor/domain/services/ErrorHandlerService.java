@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.services;
 
 import org.apache.log4j.Logger;
@@ -5,12 +10,12 @@ import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.calamp.connect.messageprocessor.Constants;
 import com.calamp.connect.messageprocessor.domain.model.ProcessingWrapper;
 
-@Component
+@Service
 @MessageEndpoint
 public class ErrorHandlerService<E> {
 
@@ -21,8 +26,6 @@ public class ErrorHandlerService<E> {
         Exception e = errorMessage.getPayload();
         String preamble = "[Error]: ";
         log.info(preamble + e);
-        System.out.println(preamble + e);
-
         ProcessingWrapper<E> errorWrapper = new ProcessingWrapper<E>(e);
         Message<ProcessingWrapper<E>> m1;
         m1 = MessageBuilder.withPayload(errorWrapper).copyHeaders(errorMessage.getHeaders()).build();

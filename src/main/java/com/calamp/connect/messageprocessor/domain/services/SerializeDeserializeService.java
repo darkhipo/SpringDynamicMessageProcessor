@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.services;
 
 import java.io.ByteArrayInputStream;
@@ -14,10 +19,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SQSerializeDeserializeService implements ObjectSerializerServiceInterface {
+public class SerializeDeserializeService implements ObjectSerializerServiceInterface {
 
     @SuppressWarnings("unused")
-    private static Logger log = Logger.getLogger(SQSerializeDeserializeService.class.getName());
+    private static Logger log = Logger.getLogger(SerializeDeserializeService.class.getName());
     private Base64 b64;
 
     @PostConstruct
@@ -57,11 +62,4 @@ public class SQSerializeDeserializeService implements ObjectSerializerServiceInt
         return object;
     }
 
-    public String serializeToSqs(Serializable obj) {
-        return objectToString(obj);
-    }
-
-    public <T> T deserializeFromSqs(String fromSqs) {
-        return stringToObject(fromSqs);
-    }
 }

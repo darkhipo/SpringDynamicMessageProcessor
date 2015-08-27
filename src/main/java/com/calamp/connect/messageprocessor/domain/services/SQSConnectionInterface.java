@@ -1,6 +1,11 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.domain.services;
 
-public interface SimpleQueuServiceConnectionInterface {
+public interface SQSConnectionInterface {
 
     public void sendMessage(String spayload);
 

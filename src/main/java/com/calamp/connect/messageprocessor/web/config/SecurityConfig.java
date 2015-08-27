@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;

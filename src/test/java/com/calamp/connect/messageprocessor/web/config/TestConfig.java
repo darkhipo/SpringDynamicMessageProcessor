@@ -1,4 +1,4 @@
-package com.calamp.connect.messageprocessor.testing.config;
+package com.calamp.connect.messageprocessor.web.config;
 
 import org.apache.log4j.Logger;
 import org.springframework.boot.context.properties.ConfigurationProperties;

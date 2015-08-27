@@ -1,3 +1,8 @@
+/**
+    Dmitri, Arkhipov
+    Aug 27, 2015
+**/
+
 package com.calamp.connect.messageprocessor.web.config;
 
 import org.apache.log4j.Logger;
@@ -13,8 +18,6 @@ import org.springframework.scheduling.support.PeriodicTrigger;
 import com.amazon.sqs.javamessaging.SQSConnectionFactory;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.calamp.connect.messageprocessor.Constants;
-import com.calamp.connect.messageprocessor.domain.stages.DummyStage;
-import com.calamp.connect.messageprocessor.domain.stages.DummyStageExpander;
 
 @Configuration
 @EnableIntegration
