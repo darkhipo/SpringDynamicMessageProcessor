@@ -19,4 +19,5 @@ public interface RouteAndProcessService {
 
     @Gateway(requestChannel = Constants.sourceChannelName, replyChannel = Constants.targetChannelName) <E> Future<ProcessingWrapper <E>> processMessage(ProcessingWrapper<E> message, @Header(Constants.nextHopHeaderName) String nextHop);
     @Gateway(requestChannel = Constants.sourceChannelName, replyChannel = Constants.targetChannelName) <E> Future<ProcessingWrapper <E>> processMessage(ProcessingWrapper <E> message);
+
 }

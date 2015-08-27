@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor.domain.services;
 
@@ -27,7 +27,7 @@ import com.calamp.connect.messageprocessor.Constants;
 
 @Service
 @ConfigurationProperties(prefix = Constants.sqsSetupYamlPrefix)
-public class SQSConnectionService implements SQSConnectionInterface {
+public class SQSConnectionService implements SQSConnectionServiceInterface {
 
     private static Logger log = Logger.getLogger(SQSConnectionService.class.getName());
     private AmazonSQS sqs;
@@ -69,7 +69,7 @@ public class SQSConnectionService implements SQSConnectionInterface {
         return (!mresp.getMessages().isEmpty());
     }
 
-    /** 
+    /**
      * Receive message, then delete from Q. Return null if no message returned.
      */
     public String recieveMessage() {

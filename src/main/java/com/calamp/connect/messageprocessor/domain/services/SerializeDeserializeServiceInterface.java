@@ -7,7 +7,7 @@ package com.calamp.connect.messageprocessor.domain.services;
 
 import java.io.Serializable;
 
-public interface ObjectSerializerServiceInterface {
+public interface SerializeDeserializeServiceInterface {
 
     public String objectToString(Serializable object);
 

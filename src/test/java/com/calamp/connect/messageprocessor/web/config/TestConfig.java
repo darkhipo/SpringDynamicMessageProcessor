@@ -23,7 +23,7 @@ public class TestConfig {
 
     private static final Logger log = Logger.getLogger(TestConfig.class.getName());
 
-    ////// Test Beans
+    // //// Test Beans
     @Bean
     public DummyStage DummyStage_A() {
         log.info("Bean: DummyStage_A");
@@ -53,19 +53,19 @@ public class TestConfig {
         log.info("Bean: DummyStage_E");
         return new DummyStage("DummyStage_E");
     }
-    
+
     @Bean
     public DummyStageExpander DummyStage_F() {
         log.info("Bean: DummyStage_F");
         return new DummyStageExpander("DummyStage_F", DummyStage_A());
     }
-    
+
     @Bean
     public DummyStageClearer DummyStage_G() {
         log.info("Bean: DummyStage_G");
         return new DummyStageClearer("DummyStage_G");
     }
-    
+
     @Bean
     public DummyStageExceptor DummyStage_H() {
         log.info("Bean: DummyStage_H");

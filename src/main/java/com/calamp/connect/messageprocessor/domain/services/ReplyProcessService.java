@@ -18,7 +18,14 @@ public class ReplyProcessService implements ReplyProcessServiceInterface {
     private static Logger log = Logger.getLogger(ReplyProcessService.class.getName());
 
     @Override
-    public <E> void processReply(Future<ProcessingWrapper<E>> reply) {
-        log.info("Process Reply Service: " + reply);
+    public <E> E pullResponse() {
+        log.info("Process Reply Service pullResponse: null");
+        return null;
     }
+
+    @Override
+    public <E> void pushResponse(Future<ProcessingWrapper<E>> fresp) {
+        log.info("Process Reply Service pushResponse: " + fresp);
+    }
+
 }

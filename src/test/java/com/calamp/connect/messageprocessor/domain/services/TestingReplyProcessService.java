@@ -26,15 +26,16 @@ public class TestingReplyProcessService implements ReplyProcessServiceInterface 
 
     private static final Logger log = Logger.getLogger(TestingReplyProcessService.class.getName());
     private BlockingQueue<String> testResponseQueue;
-    
+
     @Autowired(required = true)
     private PathInitializationService pis;
-    
+
     @PostConstruct
-    public void setup(){
+    public void setup() {
         this.testResponseQueue = new LinkedBlockingQueue<String>();
     }
-    
+
+    @Override
     public <E> void pushResponse(Future<ProcessingWrapper<E>> fresp) {
         log.info("Push Response!");
         try {
@@ -54,19 +55,16 @@ public class TestingReplyProcessService implements ReplyProcessServiceInterface 
         }
     }
 
-    public String pullResponse() {
+    @Override
+    public <E> E pullResponse() {
         try {
             String took = this.testResponseQueue.take();
             log.info("Take Future " + took);
-            return took;
+            return (E) took;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    @Override
-    public <E> void processReply(Future<ProcessingWrapper<E>> reply) {
-        this.pushResponse(reply);
-    }
 }

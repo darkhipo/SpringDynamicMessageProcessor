@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor.web.config;
 
@@ -27,13 +27,14 @@ import com.calamp.connect.messageprocessor.Constants;
 public class AppConfig {
 
     private static final Logger log = Logger.getLogger(AppConfig.class.getName());
-    
-    //These are set by reading in yaml via the @ConfigurationProperties annotation.
+
+    // These are set by reading in yaml via the @ConfigurationProperties
+    // annotation.
     private String eventMessageOutUrl;
     private String awsRegion;
     private Integer prefetchCount;
 
-    ////// Spring-Integration Config
+    // //// Spring-Integration Config
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerMetadata defaultPoller() {
         log.info("Spring Poll: " + Constants.springPollDelayMillis);
@@ -72,7 +73,7 @@ public class AppConfig {
         return new PublishSubscribeChannel();
     }
 
-    ////// JMS-SQS Config
+    // //// JMS-SQS Config
     @Bean
     public DefaultAWSCredentialsProviderChain credentialsProviderBean() {
         return new DefaultAWSCredentialsProviderChain();
@@ -105,7 +106,7 @@ public class AppConfig {
         return j;
     }
 
-    ////// Yaml Conf
+    // //// Yaml Conf
     public String getEventMessageOutUrl() {
         return eventMessageOutUrl;
     }

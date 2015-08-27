@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor.domain.services;
 
@@ -14,7 +14,7 @@ public interface PathInitializationServiceInterface {
     public void unregister(Class<?> c);
 
     public <E> List<String> initializePath(E inbound);
-    
+
     public void clear();
 
 }

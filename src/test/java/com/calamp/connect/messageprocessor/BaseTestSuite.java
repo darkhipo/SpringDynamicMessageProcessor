@@ -35,6 +35,8 @@ import com.calamp.connect.messageprocessor.domain.model.ExpandingPathClass;
 import com.calamp.connect.messageprocessor.domain.model.StaticPathClass;
 import com.calamp.connect.messageprocessor.domain.services.JmsSqsMessageProducer;
 import com.calamp.connect.messageprocessor.domain.services.PathInitializationService;
+import com.calamp.connect.messageprocessor.domain.services.PathInitializationServiceInterface;
+import com.calamp.connect.messageprocessor.domain.services.ReplyProcessServiceInterface;
 import com.calamp.connect.messageprocessor.domain.services.SQSConnectionService;
 import com.calamp.connect.messageprocessor.domain.services.TestingReplyProcessService;
 import com.calamp.connect.messageprocessor.exceptions.ExpectedTestException;
@@ -53,7 +55,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @IntegrationTest({ "server.port=0" })
 @WebAppConfiguration
-public class BasicTestSuite {
+public class BaseTestSuite {
 
     private static Logger log = Logger.getLogger(SQSConnectionService.class.getName());
 
@@ -61,10 +63,10 @@ public class BasicTestSuite {
     JmsSqsMessageProducer provider;
 
     @Autowired(required = true)
-    PathInitializationService pathServe;
+    PathInitializationServiceInterface pathServe;
     
     @Autowired(required = true)
-    TestingReplyProcessService replyServe;
+    ReplyProcessServiceInterface replyServe;
 
     @Value("http://localhost:${local.server.port}/")
     private URL base;

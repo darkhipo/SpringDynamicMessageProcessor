@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor.domain.model;
 
@@ -41,10 +41,10 @@ public class ProcessingWrapper<I> {
 
         if (copyMe.getDataPayload().getClass() == this.getClass()) {
             // Shallow Copy.
-            this.dataPayload = (I) copyMe.getDataPayload(); 
+            this.dataPayload = (I) copyMe.getDataPayload();
         } else {
             // Assume that in this case data is set through "setData"!
-            this.dataPayload = null; 
+            this.dataPayload = null;
         }
     }
 

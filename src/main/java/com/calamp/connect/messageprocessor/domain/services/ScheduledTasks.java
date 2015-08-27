@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor.domain.services;
 
@@ -37,17 +37,17 @@ public class ScheduledTasks {
     JmsSqsMessageConsumer consumer;
 
     @Autowired(required = true)
-    private SQSConnectionService eventMessageOut;
-
-    @Autowired(required = true)
     private RouteAndProcessService stageService;
 
     @Autowired(required = true)
-    private PathInitializationService pathService;
+    private PathInitializationServiceInterface pathService;
+
+    @Autowired(required = true)
+    private SQSConnectionServiceInterface sqsConnService;
 
     @Autowired
     private ReplyProcessServiceInterface rpsi;
-    
+
     @Scheduled(fixedRate = Constants.sqsPollDelayMillis)
     public void pollAndProcess() {
         log.info("pollAndProcess the time is now " + dateFormat.format(new Date()));
@@ -58,7 +58,8 @@ public class ScheduledTasks {
     /**
      * Push based JMS-SQS solution.
      * 
-     * @param The message received.
+     * @param The
+     *            message received.
      */
     @JmsListener(destination = "na-eventMessageOut-1", containerFactory = "JmSqsContainerFactory")
     public <E> void receiveMessage(String message) {
@@ -68,7 +69,7 @@ public class ScheduledTasks {
         ProcessingWrapper<E> payload;
         payload = Util.wrapData(reconstructed, pathService.initializePath(reconstructed));
         Future<ProcessingWrapper<E>> ret = stageService.processMessage(payload);
-        this.rpsi.processReply(ret);
+        this.rpsi.pushResponse(ret);
     }
 
     /**
@@ -89,7 +90,7 @@ public class ScheduledTasks {
     @SuppressWarnings("unused")
     private <E> void customPullFromSQS() {
         String mtxt = null;
-        while ((mtxt = eventMessageOut.recieveMessage()) != null) {
+        while ((mtxt = sqsConnService.recieveMessage()) != null) {
             log.info("Message String: " + mtxt);
             ProcessingWrapper<E> payload;
             payload = Util.wrapData(this.sds.stringToObject(mtxt), pathService.initializePath(mtxt));

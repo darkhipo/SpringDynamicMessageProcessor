@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor;
 
@@ -15,7 +15,7 @@ import com.calamp.connect.messageprocessor.domain.services.RouteAndProcessServic
 public class Util {
 
     @SuppressWarnings("unused")
-    private static String getDefaultBeanName(@SuppressWarnings("rawtypes") Class aClass) {
+    private static String getDefaultBeanName(Class<?> aClass) {
         String beanName = RouteAndProcessService.class.getSimpleName();
         beanName = Character.toLowerCase(beanName.charAt(0)) + (beanName.length() > 1 ? beanName.substring(1) : "");
         return beanName;

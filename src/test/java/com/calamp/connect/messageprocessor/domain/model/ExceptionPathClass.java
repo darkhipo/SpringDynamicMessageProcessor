@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor.domain.model;
 
@@ -20,7 +20,7 @@ public class ExceptionPathClass implements CapsuleInterface<String>, Serializabl
     public String getPayload() {
         return payload;
     }
-    
+
     @Override
     public void setPayload(String payload) {
         this.payload = payload;

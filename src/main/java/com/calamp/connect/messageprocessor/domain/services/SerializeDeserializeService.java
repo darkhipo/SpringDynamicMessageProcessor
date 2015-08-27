@@ -1,7 +1,7 @@
 /**
     Dmitri, Arkhipov
     Aug 27, 2015
-**/
+ **/
 
 package com.calamp.connect.messageprocessor.domain.services;
 
@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SerializeDeserializeService implements ObjectSerializerServiceInterface {
+public class SerializeDeserializeService implements SerializeDeserializeServiceInterface {
 
     @SuppressWarnings("unused")
     private static Logger log = Logger.getLogger(SerializeDeserializeService.class.getName());
@@ -46,6 +46,7 @@ public class SerializeDeserializeService implements ObjectSerializerServiceInter
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public <t extends Serializable, T> T stringToObject(String string) {
         byte[] bytes = this.b64.decode(string.getBytes());
         T object = null;
