@@ -18,4 +18,5 @@ public class ServiceActivators {
         String preamble = "[Message at Completion]: ";
         log.info(preamble + obj);
     }
+
 }

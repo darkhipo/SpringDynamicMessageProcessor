@@ -6,30 +6,39 @@ import java.util.UUID;
 
 import com.calamp.connect.messageprocessor.Util;
 
-public class ProcessingWrapper<E> {
+public class ProcessingWrapper<I> {
 
     private UUID siIdent;
     private List<String> transitPath;
     private List<String> futurePath;
     private Exception wrappedException;
-    private E dataPayload;
+    private I dataPayload;
 
-    public ProcessingWrapper(UUID siIdent, E dataPayload, List<String> planPath) {
+    public ProcessingWrapper(UUID siIdent, I dataPayload, List<String> planPath) {
         super();
         this.wrappedException = null;
         this.siIdent = siIdent;
         this.dataPayload = dataPayload;
         this.transitPath = new ArrayList<String>();
-        this.futurePath = planPath;
+        this.futurePath = new ArrayList<String>();
+        if( planPath != null ){
+            this.futurePath.addAll(planPath);
+        }
     }
 
-    public ProcessingWrapper(ProcessingWrapper<E> copyMe) {
+    public <O> ProcessingWrapper(ProcessingWrapper<O> copyMe) {
         super();
-        this.wrappedException = null;
+        this.wrappedException = copyMe.getWrappedException();
         this.siIdent = UUID.fromString(copyMe.getSiIdent().toString());
         this.transitPath = Util.copyStringList(copyMe.getTransitPath());
         this.futurePath = Util.copyStringList(copyMe.getFuturePath());
-        this.dataPayload = copyMe.getDataPayload(); //Shallow Copy.
+        
+        if (copyMe.getDataPayload().getClass() == this.getClass()){
+            this.dataPayload = (I) copyMe.getDataPayload(); // Shallow Copy.
+        }
+        else{
+            this.dataPayload = null; //Assume that in this case data is set through "setData".
+        }
     }
 
     public ProcessingWrapper(Exception e) {
@@ -46,7 +55,7 @@ public class ProcessingWrapper<E> {
         return null;
     }
 
-    //When null is returned that means this was the last stage.
+    // When null is returned that means this was the last stage.
     public String nextStepPeek() {
         if (this.futurePath.size() > 0) {
             return this.futurePath.get(0);
@@ -63,7 +72,8 @@ public class ProcessingWrapper<E> {
 
     private static void assertIndexCorrect(String myName, String concretePresent) {
         if (!myName.equals(concretePresent)) {
-            throw new IllegalStateException("In state [" + myName + "] with inconsistent path value: [" + concretePresent + "]");
+            throw new IllegalStateException("In state [" + myName + "] with inconsistent path value: ["
+                    + concretePresent + "]");
         }
     }
 
@@ -88,12 +98,12 @@ public class ProcessingWrapper<E> {
     public List<String> getFuturePath() {
         return futurePath;
     }
-    
+
     public Exception getWrappedException() {
         return wrappedException;
     }
 
-    public E getDataPayload() {
+    public I getDataPayload() {
         return dataPayload;
     }
 
@@ -105,7 +115,8 @@ public class ProcessingWrapper<E> {
         this.futurePath = futurePath;
     }
 
-    public void setDataPayload(E dataPayload) {
-        this.dataPayload = dataPayload;
+    public void setDataPayload(I data) {
+        this.dataPayload = data;
     }
+
 }

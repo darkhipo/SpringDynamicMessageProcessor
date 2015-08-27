@@ -2,12 +2,10 @@ package com.calamp.connect.messageprocessor.domain.services;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.jms.JMSException;
+import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.calamp.connect.messageprocessor.Constants;
 import com.calamp.connect.messageprocessor.Util;
 import com.calamp.connect.messageprocessor.domain.model.ProcessingWrapper;
+import com.calamp.connect.messageprocessor.testing.environment.TestEnv;
 
 @Service
 public class ScheduledTasks {
@@ -23,7 +22,10 @@ public class ScheduledTasks {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Autowired(required = true)
-    JmSqsMessageProvider provider;
+    SQSerializeDeserializeService sds;
+    
+    @Autowired(required = true)
+    JmSqsMessageProducer provider;
 
     @Autowired(required = true)
     JmSqsMessageConsumer consumer;
@@ -41,10 +43,6 @@ public class ScheduledTasks {
     public void pollAndProcess() {
 
         log.info("pollAndProcess the time is now " + dateFormat.format(new Date()));
-
-        if(Constants.debug){
-            provider.sendMessage("This is a test");
-        }
 
         /*
          * //Custom polling solution for reading SQS. String mtxt = null; while
@@ -64,9 +62,16 @@ public class ScheduledTasks {
 
     // Push based JMS-SQS solution.
     @JmsListener(destination = "na-eventMessageOut-1", containerFactory = "JmSqsContainerFactory")
-    public void receiveMessage(String message) {
+    public <E> void receiveMessage(String message) {
         log.info("Received Message String <" + message + ">");
-        pathService.initializePath(message);
+        E reconstructed = sds.deserializeFromSqs(message);
+        log.info("Reconstruct Message String <" + reconstructed.getClass() + ">: " + reconstructed.toString());
+        ProcessingWrapper<E> payload;
+        payload = Util.wrapData(reconstructed, pathService.initializePath(reconstructed));
+        Future<ProcessingWrapper<E>> ret = stageService.processMessage(payload);
+        if (Constants.debug) {
+            TestEnv.pushResponse(ret);
+        }
     }
 
 }

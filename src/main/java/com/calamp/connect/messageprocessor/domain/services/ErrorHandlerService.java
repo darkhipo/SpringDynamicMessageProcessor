@@ -17,15 +17,16 @@ public class ErrorHandlerService<E> {
     private static final Logger log = Logger.getLogger(ErrorHandlerService.class.getName());
 
     @ServiceActivator(inputChannel = Constants.errorChannelName, outputChannel = Constants.targetChannelName)
-    public Message<ProcessingWrapper <E>> handleErrorMessage(Message<Exception> errorMessage) {
+    public Message<ProcessingWrapper<E>> handleErrorMessage(Message<Exception> errorMessage) {
         Exception e = errorMessage.getPayload();
         String preamble = "[Error]: ";
         log.info(preamble + e);
         System.out.println(preamble + e);
 
         ProcessingWrapper<E> errorWrapper = new ProcessingWrapper<E>(e);
-        Message<ProcessingWrapper <E>> m1;
+        Message<ProcessingWrapper<E>> m1;
         m1 = MessageBuilder.withPayload(errorWrapper).copyHeaders(errorMessage.getHeaders()).build();
         return m1;
     }
+
 }

@@ -20,9 +20,9 @@ public class Routers {
     private static Logger log = Logger.getLogger(Routers.class.getName());
 
     @Router(inputChannel = Constants.sourceChannelName, defaultOutputChannel = Constants.targetChannelName, applySequence = "true")
-    public <E> List<String> route(Message<ProcessingWrapper <E>> inbound) throws InterruptedException, InvalidAlgorithmParameterException {
+    public <E> List<String> route(Message<ProcessingWrapper<E>> inbound) throws InterruptedException, InvalidAlgorithmParameterException {
         String nextHop = null;
-        if ( inbound.getHeaders().containsKey( Constants.nextHopHeaderName ) ) {
+        if (inbound.getHeaders().containsKey(Constants.nextHopHeaderName)) {
             nextHop = String.valueOf(inbound.getHeaders().get(Constants.nextHopHeaderName));
         } else {
             nextHop = inbound.getPayload().nextStepPeek();
@@ -33,11 +33,12 @@ public class Routers {
         Stage currentStage = Transforms.resolveStage(nextHop);
 
         if (currentStage == null || currentStage.getStageIdentifer().equals(Constants.terminalStageTag)) {
-            routesTo.add( Constants.targetChannelName );
+            routesTo.add(Constants.targetChannelName);
         } else {
-            routesTo.add( Constants.stageChannelName );
+            routesTo.add(Constants.stageChannelName);
         }
 
         return routesTo;
     }
+
 }

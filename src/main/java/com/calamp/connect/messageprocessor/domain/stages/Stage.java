@@ -10,11 +10,11 @@ public abstract class Stage {
     private final String stageIdentifer;
 
     @PostConstruct
-    public void setup(){
+    public void setup() {
         Transforms.registerStage(this);
     }
 
-    public Stage( String ident ) {
+    public Stage(String ident) {
         this.stageIdentifer = ident;
         Transforms.registerStage(this);
     }
@@ -23,5 +23,6 @@ public abstract class Stage {
         return stageIdentifer;
     }
 
-    public abstract <E> ProcessingWrapper<E> enact(ProcessingWrapper<E> inPayload) throws Exception;
+    public abstract <I,O> ProcessingWrapper<O> enact(ProcessingWrapper<I> inPayload) throws Exception;
+
 }

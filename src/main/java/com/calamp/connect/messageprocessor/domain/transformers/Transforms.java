@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.log4j.Logger;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.Message;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Component;
 import com.calamp.connect.messageprocessor.Constants;
 import com.calamp.connect.messageprocessor.domain.model.ProcessingWrapper;
 import com.calamp.connect.messageprocessor.domain.stages.Stage;
-import com.calamp.connect.messageprocessor.domain.stages.TargetStage;
 
 @Component
 public class Transforms {
@@ -21,12 +22,14 @@ public class Transforms {
     private static Logger log = Logger.getLogger(Transforms.class.getName());
     private static Map<String, Stage> stageMap;
 
-    static {
+    @PostConstruct
+    private void setup () {
         Transforms.stageMap = new HashMap<String, Stage>();
-        Transforms.stageMap.put(Constants.terminalStageTag, new TargetStage(Constants.terminalStageTag));
+        Transforms.stageMap.put(Constants.terminalStageTag, null);
     }
 
     public static void registerStage(Stage newStage) {
+        log.info("Register Stage " + newStage.getStageIdentifer());
         if (!newStage.getStageIdentifer().equals(Constants.terminalStageTag)) {
             Transforms.stageMap.put(newStage.getStageIdentifer(), newStage);
         }
@@ -37,6 +40,7 @@ public class Transforms {
     }
 
     public static final Stage resolveStage(String key) {
+        log.info("Resolve Stage " + key);
         if (Transforms.stageMap.containsKey(key)) {
             return Transforms.stageMap.get(key);
         }
@@ -75,4 +79,5 @@ public class Transforms {
 
         return m1;
     }
+
 }

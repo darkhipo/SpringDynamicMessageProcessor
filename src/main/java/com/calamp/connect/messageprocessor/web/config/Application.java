@@ -27,7 +27,7 @@ public class Application extends SpringBootServletInitializer {
     @Bean
     JmsListenerContainerFactory<?> JmSqsContainerFactory(ConnectionFactory connectionFactory) {
         SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
-        factory.setSessionTransacted(false); //SQS Does not Support Transacted.
+        factory.setSessionTransacted(false); // SQS Does not Support Transacted.
         factory.setConnectionFactory(connectionFactory);
         return factory;
     }

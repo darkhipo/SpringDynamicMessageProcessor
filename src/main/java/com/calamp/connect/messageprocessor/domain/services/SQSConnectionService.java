@@ -47,8 +47,8 @@ public class SQSConnectionService implements SimpleQueuServiceConnectionInterfac
     }
 
     public void sendMessage(String spayload) {
-        log.debug("sendMessage(String payload) ");
-        log.debug(spayload);
+        log.info("sendMessage(String payload) ");
+        log.info(spayload);
         SendMessageRequest mreq = new SendMessageRequest();
         mreq = mreq.withQueueUrl(this.sqsUrl);
         mreq = mreq.withMessageBody(spayload.toString());
@@ -57,16 +57,16 @@ public class SQSConnectionService implements SimpleQueuServiceConnectionInterfac
 
     public Boolean hasNextMessage() {
         ReceiveMessageRequest receiveMessageRequest;
-        receiveMessageRequest = new ReceiveMessageRequest( this.getSqsUrl() );
-        receiveMessageRequest = receiveMessageRequest.withWaitTimeSeconds( this.getSecondsPerPoll() );
+        receiveMessageRequest = new ReceiveMessageRequest(this.getSqsUrl());
+        receiveMessageRequest = receiveMessageRequest.withWaitTimeSeconds(this.getSecondsPerPoll());
         receiveMessageRequest = receiveMessageRequest.withMaxNumberOfMessages(1);
         ReceiveMessageResult mresp = sqs.receiveMessage(receiveMessageRequest);
-        return ( !mresp.getMessages().isEmpty() );
+        return (!mresp.getMessages().isEmpty());
     }
 
     // Receive message, then delete from Q. Return null if no message returned.
     public String recieveMessage() {
-        log.debug("Receiving messages from SQS.");
+        log.info("Receiving messages from SQS.");
         ReceiveMessageRequest receiveMessageRequest;
         receiveMessageRequest = new ReceiveMessageRequest(this.sqsUrl);
         receiveMessageRequest = receiveMessageRequest.withWaitTimeSeconds(this.secondsPerPoll);
@@ -76,13 +76,13 @@ public class SQSConnectionService implements SimpleQueuServiceConnectionInterfac
         if (!mresp.getMessages().isEmpty()) {
             Message m = sqs.receiveMessage(receiveMessageRequest).getMessages().get(0);
             payload = m.getBody();
-            log.debug("Message Body: " + payload);
-            log.debug("Deleting a message: " + m.getReceiptHandle());
+            log.info("Message Body: " + payload);
+            log.info("Deleting a message: " + m.getReceiptHandle());
             DeleteMessageRequest dmr = new DeleteMessageRequest();
             dmr = dmr.withQueueUrl(this.sqsUrl);
             dmr = dmr.withReceiptHandle(m.getReceiptHandle());
             sqs.deleteMessage(dmr);
-            log.debug("Deleted: " + m.getReceiptHandle());
+            log.info("Deleted: " + m.getReceiptHandle());
         }
         return payload;
     }
@@ -107,4 +107,5 @@ public class SQSConnectionService implements SimpleQueuServiceConnectionInterfac
     public void setSqsUrl(String sqsUrl) {
         this.sqsUrl = sqsUrl;
     }
+
 }

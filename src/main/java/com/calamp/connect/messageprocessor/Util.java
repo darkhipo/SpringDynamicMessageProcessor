@@ -16,14 +16,6 @@ public class Util {
         return beanName;
     }
 
-    public static <E> String serializeToSqs(E toSqs) {
-        return toSqs.toString();
-    }
-
-    public static String deserializeFromSqs(String fromSqs) {
-        return fromSqs;
-    }
-
     public static <E> ProcessingWrapper<E> wrapData(E dataPayload, List<String> initialPathPlan) {
         UUID siId = UUID.randomUUID();
         ProcessingWrapper<E> payload = new ProcessingWrapper<E>(siId, dataPayload, initialPathPlan);
@@ -37,4 +29,5 @@ public class Util {
         }
         return theCopy;
     }
+
 }
