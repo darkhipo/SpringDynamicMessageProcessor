@@ -19,5 +19,6 @@ public final class Constants {
     public static final long springPollDelayMillis = 64L;
     
     // Meta
+    // This MUST be set for the JUnit tests to work.
     public static final boolean debug              = true;
 }

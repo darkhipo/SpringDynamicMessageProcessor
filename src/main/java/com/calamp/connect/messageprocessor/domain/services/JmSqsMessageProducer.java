@@ -21,7 +21,7 @@ public class JmSqsMessageProducer {
 
     @Autowired
     SQSerializeDeserializeService sds;
-    
+
     @Resource(name = "jmsTemplate")
     private JmsTemplate jmsTemplate;
 

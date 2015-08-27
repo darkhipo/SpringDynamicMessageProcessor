@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Future;
 
+import javax.jms.JMSException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -23,7 +25,7 @@ public class ScheduledTasks {
 
     @Autowired(required = true)
     SQSerializeDeserializeService sds;
-    
+
     @Autowired(required = true)
     JmSqsMessageProducer provider;
 
@@ -41,23 +43,34 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = Constants.sqsPollDelayMillis)
     public void pollAndProcess() {
-
         log.info("pollAndProcess the time is now " + dateFormat.format(new Date()));
+        // this.customPullFromSQS();
+        // jmsPullFromSQS();
+    }
 
-        /*
-         * //Custom polling solution for reading SQS. String mtxt = null; while
-         * ((mtxt = eventMessageOut.recieveMessage()) != null) {
-         * log.info("Message String: " + mtxt); ProcessingWrapper<String>
-         * payload = Util.wrapData(Util.deserializeFromSqs(mtxt),
-         * pathService.initializePath(mtxt)); // This returns a Java Future, it
-         * can be waited on, put in a list stageService.processMessage(payload);
-         * }
-         */
+    /**
+     * JMS based polling solution for reading messages from SQS.
+     */
+    private <E> void jmsPullFromSQS() {
+        try {
+            consumer.readMessage();
+        } catch (JMSException e) {
+            log.error(e);
+        }
+    }
 
-        /*
-         * // JMS based polling solution for reading messages from SQS. try {
-         * consumer.readMessage(); } catch (JMSException e) { log.error(e); }
-         */
+    /**
+     * Custom polling solution for reading SQS.
+     */
+    private <E> void customPullFromSQS() {
+        String mtxt = null;
+        while ((mtxt = eventMessageOut.recieveMessage()) != null) {
+            log.info("Message String: " + mtxt);
+            ProcessingWrapper<E> payload;
+            payload = Util.wrapData(this.sds.deserializeFromSqs(mtxt), pathService.initializePath(mtxt));
+            // This returns a Java Future, it can be waited on, put in a list
+            Future<ProcessingWrapper<E>> ret = stageService.processMessage(payload);
+        }
     }
 
     // Push based JMS-SQS solution.

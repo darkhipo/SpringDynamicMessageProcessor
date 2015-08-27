@@ -19,16 +19,15 @@ public class SQSerializeDeserializeService implements ObjectSerializerServiceInt
     @SuppressWarnings("unused")
     private static Logger log = Logger.getLogger(SQSerializeDeserializeService.class.getName());
     private Base64 b64;
-    
+
     @PostConstruct
-    void setup(){
+    void setup() {
         this.b64 = new Base64();
     }
 
     @Override
     public String objectToString(Serializable object) {
         String encoded = null;
-
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);

@@ -127,41 +127,4 @@ public class AppConfig {
         this.prefetchCount = prefetchCount;
     }
 
-    ////// Test Beans
-    @Bean
-    public DummyStage DummyStage_A() {
-        log.info("Bean: DummyStage_A");
-        return new DummyStage("DummyStage_A");
-    }
-
-    @Bean
-    public DummyStage DummyStage_B() {
-        log.info("Bean: DummyStage_B");
-        return new DummyStage("DummyStage_B");
-    }
-
-    @Bean
-    public DummyStage DummyStage_C() {
-        log.info("Bean: DummyStage_C");
-        return new DummyStage("DummyStage_C");
-    }
-
-    @Bean
-    public DummyStage DummyStage_D() {
-        log.info("Bean: DummyStage_D");
-        return new DummyStage("DummyStage_D");
-    }
-
-    @Bean
-    public DummyStage DummyStage_E() {
-        log.info("Bean: DummyStage_E");
-        return new DummyStage("DummyStage_E");
-    }
-    
-    @Bean
-    public DummyStageExpander DummyStage_F() {
-        log.info("Bean: DummyStage_F");
-        return new DummyStageExpander("DummyStage_F", DummyStage_A());
-    }
-
 }

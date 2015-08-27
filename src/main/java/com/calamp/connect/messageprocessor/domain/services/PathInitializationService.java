@@ -10,9 +10,11 @@ import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.calamp.connect.messageprocessor.Constants;
 import com.calamp.connect.messageprocessor.domain.model.serializable.ClearFuturePathClass;
 import com.calamp.connect.messageprocessor.domain.model.serializable.ExpandingPathClass;
 import com.calamp.connect.messageprocessor.domain.model.serializable.StaticPathClass;
+import com.calamp.connect.messageprocessor.testing.environment.TestEnv;
 
 @Service
 public class PathInitializationService {
@@ -25,11 +27,18 @@ public class PathInitializationService {
     @PostConstruct
     public void setup() {
         this.pathMap = new HashMap<Class<?>, List<String>>();
-        //This Bootstraps a initial processing path for a class used in unit-testing.
-        //See AppConfig.java for reference to these names.
-        this.pathMap.put(StaticPathClass.class, Arrays.asList("DummyStage_C", "DummyStage_A", "DummyStage_B", "DummyStage_D", "DummyStage_E")); 
-        this.pathMap.put(ExpandingPathClass.class, Arrays.asList("DummyStage_C", "DummyStage_A", "DummyStage_B", "DummyStage_D", "DummyStage_E", "DummyStage_F")); 
-        this.pathMap.put(ClearFuturePathClass.class, Arrays.asList("DummyStage_C", "DummyStage_A", "DummyStage_G")); 
+        // This Bootstraps a initial processing path for a class used in unit-testing.
+        if (Constants.debug) {
+            TestEnv.bootPathService(this);
+        }
+    }
+
+    public void register(Class<?> c, List<String> l) {
+        this.pathMap.put(c, l);
+    }
+
+    public void unregister(Class<?> c) {
+        this.pathMap.remove(c);
     }
 
     public <E> List<String> initializePath(E inbound) {

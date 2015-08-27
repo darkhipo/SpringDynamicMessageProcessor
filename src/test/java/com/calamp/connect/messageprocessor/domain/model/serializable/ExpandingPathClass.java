@@ -2,7 +2,7 @@ package com.calamp.connect.messageprocessor.domain.model.serializable;
 
 import java.io.Serializable;
 
-public class ExpandingPathClass implements Serializable{
+public class ExpandingPathClass implements Serializable {
 
     private static final long serialVersionUID = 318764014940011810L;
     private String payload;

@@ -23,6 +23,6 @@ public abstract class Stage {
         return stageIdentifer;
     }
 
-    public abstract <I,O> ProcessingWrapper<O> enact(ProcessingWrapper<I> inPayload) throws Exception;
+    public abstract <I, O> ProcessingWrapper<O> enact(ProcessingWrapper<I> inPayload) throws Exception;
 
 }

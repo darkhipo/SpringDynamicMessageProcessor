@@ -21,7 +21,8 @@ public class ProcessingWrapper<I> {
         this.dataPayload = dataPayload;
         this.transitPath = new ArrayList<String>();
         this.futurePath = new ArrayList<String>();
-        if( planPath != null ){
+
+        if (planPath != null) {
             this.futurePath.addAll(planPath);
         }
     }
@@ -32,12 +33,12 @@ public class ProcessingWrapper<I> {
         this.siIdent = UUID.fromString(copyMe.getSiIdent().toString());
         this.transitPath = Util.copyStringList(copyMe.getTransitPath());
         this.futurePath = Util.copyStringList(copyMe.getFuturePath());
-        
-        if (copyMe.getDataPayload().getClass() == this.getClass()){
+
+        if (copyMe.getDataPayload().getClass() == this.getClass()) {
             this.dataPayload = (I) copyMe.getDataPayload(); // Shallow Copy.
-        }
-        else{
-            this.dataPayload = null; //Assume that in this case data is set through "setData".
+        } else {
+            this.dataPayload = null; // Assume that in this case data is set
+                                     // through "setData".
         }
     }
 
