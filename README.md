@@ -1,14 +1,14 @@
 # SpringDynamicMessageProcessor
-    A Maven/Spring-Boot/Spring-Integration service for executing dynamically determined processing stage paths. 
+A Maven/Spring-Boot/Spring-Integration service for executing dynamically determined processing stage paths. 
 
-    This image describes the control flow through the core router/transformer at the heart of this application.
-    It does not describe the configuration of SQS or the server in which the application is hosted. 
-    
-    ![Dynamic Routing Spring Integration Core](dynamic_route.jpg)
+This image describes the control flow through the core router/transformer at the heart of this application.
+It does not describe the configuration of SQS or the server in which the application is hosted. 
 
-    ## Configurations
-        The project comes with a pure java configuration for both core and test. 
-        Both configurations work, the core configuration is a prerequisite for the test configuration. 
+![Dynamic Routing Spring Integration Core](dynamic_route.jpg)
+
+## Configurations
+    The project comes with a pure java configuration for both core and test. 
+    Both configurations work, the core configuration is a prerequisite for the test configuration. 
 
 # System Overview
 
