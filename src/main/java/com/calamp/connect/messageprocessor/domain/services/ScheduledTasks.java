@@ -45,7 +45,7 @@ public class ScheduledTasks {
     @Autowired(required = true)
     private SQSConnectionServiceInterface sqsConnService;
 
-    @Autowired
+    @Autowired(required = true)
     private ReplyProcessServiceInterface rpsi;
 
     @Scheduled(fixedRate = Constants.sqsPollDelayMillis)

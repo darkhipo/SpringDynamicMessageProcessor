@@ -34,11 +34,9 @@ import com.calamp.connect.messageprocessor.domain.model.ExceptionPathClass;
 import com.calamp.connect.messageprocessor.domain.model.ExpandingPathClass;
 import com.calamp.connect.messageprocessor.domain.model.StaticPathClass;
 import com.calamp.connect.messageprocessor.domain.services.JmsSqsMessageProducer;
-import com.calamp.connect.messageprocessor.domain.services.PathInitializationService;
 import com.calamp.connect.messageprocessor.domain.services.PathInitializationServiceInterface;
 import com.calamp.connect.messageprocessor.domain.services.ReplyProcessServiceInterface;
 import com.calamp.connect.messageprocessor.domain.services.SQSConnectionService;
-import com.calamp.connect.messageprocessor.domain.services.TestingReplyProcessService;
 import com.calamp.connect.messageprocessor.exceptions.ExpectedTestException;
 import com.calamp.connect.messageprocessor.web.config.Application;
 

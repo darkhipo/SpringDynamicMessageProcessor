@@ -20,7 +20,7 @@ public class JmsSqsMessageConsumer {
 
     final static Logger logger = Logger.getLogger(JmsSqsMessageConsumer.class);
 
-    @Autowired
+    @Autowired(required = true)
     SerializeDeserializeService sds;
 
     @Resource(name = "jmsTemplate")

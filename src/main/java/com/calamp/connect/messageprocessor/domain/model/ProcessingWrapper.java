@@ -14,7 +14,7 @@ import com.calamp.connect.messageprocessor.Util;
 public class ProcessingWrapper<I> {
 
     private UUID siIdent;
-    private List<String> transitPath;
+    private final List<String> transitPath;
     private List<String> futurePath;
     private Exception wrappedException;
     private I dataPayload;
@@ -48,8 +48,9 @@ public class ProcessingWrapper<I> {
         }
     }
 
-    public ProcessingWrapper(Exception e) {
+    public <O> ProcessingWrapper(Exception e) {
         this.wrappedException = e;
+        this.transitPath = null;
     }
 
     public String advance(String step) {

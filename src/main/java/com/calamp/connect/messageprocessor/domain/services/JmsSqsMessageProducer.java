@@ -24,7 +24,7 @@ public class JmsSqsMessageProducer {
 
     final static Logger logger = Logger.getLogger(JmsSqsMessageProducer.class);
 
-    @Autowired
+    @Autowired(required = true)
     SerializeDeserializeService sds;
 
     @Resource(name = "jmsTemplate")
