@@ -3,7 +3,7 @@
     Aug 27, 2015
  **/
 
-package com.calamp.connect.messageprocessor.web.controllers;
+package com.calamp.connect.messageprocessor.web.config;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
