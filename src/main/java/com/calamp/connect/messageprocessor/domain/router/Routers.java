@@ -25,8 +25,7 @@ public class Routers {
     private static Logger log = Logger.getLogger(Routers.class.getName());
 
     @Router(inputChannel = Constants.sourceChannelName, defaultOutputChannel = Constants.targetChannelName, applySequence = "true")
-    public <E> List<String> route(Message<ProcessingWrapper<E>> inbound) throws InterruptedException,
-            InvalidAlgorithmParameterException {
+    public <E> List<String> route(Message<ProcessingWrapper<E>> inbound) throws InterruptedException, InvalidAlgorithmParameterException {
         String nextHop = null;
         if (inbound.getHeaders().containsKey(Constants.nextHopHeaderName)) {
             nextHop = String.valueOf(inbound.getHeaders().get(Constants.nextHopHeaderName));
