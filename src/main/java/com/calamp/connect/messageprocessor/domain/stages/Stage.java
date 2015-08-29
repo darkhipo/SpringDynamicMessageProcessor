@@ -27,7 +27,16 @@ public abstract class Stage {
     public String getStageIdentifer() {
         return stageIdentifer;
     }
-
+    /**
+     * The execution of each Stage is performed in this method. 
+     * 'I' is the class of the object wrapped in the incoming ProcessingWrapper.
+     * 'O' is the class of the outgoing object  in the outgoing ProcessingWrapper.
+     * In other words the Stage execution may involve a transformation of one 
+     * class of object into another.
+     * @param inPayload: inbound parameter wrapper.
+     * @return outbound parameter wrapper (after stage transform).
+     * @throws Exception
+     */
     public abstract <I, O> ProcessingWrapper<O> enact(ProcessingWrapper<I> inPayload) throws Exception;
 
 }
